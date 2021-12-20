@@ -1,0 +1,2 @@
+Patient Name : Sezer | Patient Surname : Akoraler | Patient Age : 19 | Patient Symptomps/Disase  : High Fever
+Patient Name : Fatih Yunus | Patient Surname : Dogan | Patient Age : 20 | Patient Symptomps/Disase  : New Disease
