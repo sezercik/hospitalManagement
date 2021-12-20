@@ -8,5 +8,5 @@ Simple hospital management doing in C, console application.
 # Proccess
 - [x] Starting
 - [x] Add patient
-- [ ] Add Database
+- [x] Add Database
 - [ ] Others
