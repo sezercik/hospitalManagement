@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <sqlite3.h>
+
 
 #define MAX 45
 #define ENTER_KEY 13
@@ -20,14 +22,14 @@ void create_patient(patient_name, patient_surname, patient_age, patient_disease)
         return -1;
     }
 
+	printf("Patient: %s %s %d created\nPatient Symptons is:%s\n\n\n", patient_name, patient_surname, patient_age, patient_disease);
+
     // write to the text file
         fprintf(fp, "%s : %s | %s : %s | %s : %d | %s  : %s\n", "Patient Name",patient_name,"Patient Surname",patient_surname,"Patient Age",patient_age,"Patient Symptomps/Disase",patient_disease);
-
+		
     // close the file
     fclose(fp);
-	
-	printf("Patient: %s %s %d created\nPatient Symptons is:%s\n\n\n", patient_name, patient_surname, patient_age, patient_disease);
-}
+	}
 
 main()
 {
@@ -67,8 +69,15 @@ main()
 			system("cls");
 		}
 		break;
+		case 2:
+		{
+			printf("Edit a Patient File\n");
+
+		}
+		break;
 		default:
-			break;
+			printf("Invalid choice\n");
+		}
 		}
 	} while (i == 0);
 }
