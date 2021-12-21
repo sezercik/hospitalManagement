@@ -9,4 +9,4 @@ Simple hospital management doing in C, console application.
 - [x] Starting
 - [x] Add patient
 - [x] Add Database
-- [ ] Others
+- [ ] Othersasdad
