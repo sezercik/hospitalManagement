@@ -22,7 +22,7 @@ create_patient(patient_name, patient_surname, patient_age, patient_disease, pati
 	//printf("Patient: %s %s %d created\nPatient Symptons is:%s\n\n\n", patient_name, patient_surname, patient_age, patient_disease);
 
     // write to the text file
-		addToDatabase(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease);
+		add_to_database(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease);
 	// fprintf(fp, "%s : %s | %s : %s | %s : %d | %s  : %s\n", "Patient Name",patient_name,"Patient Surname",patient_surname,"Patient Age",patient_age,"Patient Symptomps/Disase",patient_disease);
 }
 main(int argc, char *argv[])
@@ -60,7 +60,7 @@ main(int argc, char *argv[])
 			printf("Patient Symptoms please...\n");
 			scanf(" %[^\n]s", patient_symptoms);
 
-			create_patient(patient_name, patient_surname, patient_age, patient_disease, patient_symptoms);
+			add_to_database(patient_name, patient_surname, patient_age, patient_disease, patient_symptoms);
 			
 			sleep(5);
 			system("cls");
@@ -81,7 +81,7 @@ main(int argc, char *argv[])
 	} 
 
 
-addToDatabase(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease){
+int add_to_database(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease){
 	 
     sqlite3 *db;
     char *err_msg = 0;
@@ -92,7 +92,8 @@ addToDatabase(patient_name,patient_surname,patient_age,patient_symptoms,patient_
         
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
-        
+
+        return 1;
     }
     
 
@@ -111,8 +112,9 @@ addToDatabase(patient_name,patient_surname,patient_age,patient_symptoms,patient_
         sqlite3_free(err_msg);        
         sqlite3_close(db);
         
-
+        return 1;
     } 
     
     sqlite3_close(db);
+	return 0;
 }
