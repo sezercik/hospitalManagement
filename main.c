@@ -14,6 +14,7 @@ int patient_age;
 int i = 0;
 
 char *patient_db = "db/patient_db.txt";
+char sqlStr[256];
 
 create_patient(patient_name, patient_surname, patient_age, patient_disease, patient_symptoms)
 {
@@ -24,7 +25,7 @@ create_patient(patient_name, patient_surname, patient_age, patient_disease, pati
 		addToDatabase(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease);
 	// fprintf(fp, "%s : %s | %s : %s | %s : %d | %s  : %s\n", "Patient Name",patient_name,"Patient Surname",patient_surname,"Patient Age",patient_age,"Patient Symptomps/Disase",patient_disease);
 }
-main()
+main(int argc, char *argv[])
 {
 
 	do
@@ -94,12 +95,14 @@ addToDatabase(patient_name,patient_surname,patient_age,patient_symptoms,patient_
         
     }
     
-    char *sql = "DROP TABLE IF EXISTS Patient;" 
-                "CREATE TABLE Cars(PatientId INT, PatientName STRING, PatientSurname STRING, PatientAge INT, PatientSymptoms TEXT, PatientDisease TEXT, PatientDoctor STRING);" 
-                "INSERT INTO Cars VALUES(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease,'Prof. Dr. Mehmet sait');"; 
-              
 
-    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
+	sprintf( sqlStr, "INSERT INTO Patient (PatientId,PatientName,PatientSurname,PatientAge,PatientSymptoms,PatientDisease,PatientDoctor) VALUES (%s,%s,%d,%s,%s)", patient_name,patient_surname,patient_age,patient_symptoms,patient_disease );
+    /* char *sql = "INSERT INTO Patient (PatientId,PatientName,PatientSurname,PatientAge,PatientSymptoms,PatientDisease,PatientDoctor) "\
+         "VALUES (1,"+patient_name+","+patient_surname+", "+patient_age+","+patient_symptoms+","+patient_disease");"*/
+
+
+
+    rc = sqlite3_exec(db, sqlStr, 0, 0, &err_msg);
     
     if (rc != SQLITE_OK ) {
         
