@@ -2,13 +2,13 @@
 #include <sqlite3.h>
 
 
-#define MAX 45
 #define ENTER_KEY 13
 int ch;
-char patient_name[MAX];
-char patient_surname[MAX];
-char patient_disease[MAX];
-char patient_symptoms[MAX];
+char patient_name[99];
+char patient_surname[99];
+char patient_disease[99];
+char patient_symptoms[99];
+char patient_doctor[99];
 
 int patient_age;
 int i = 0;
@@ -16,13 +16,13 @@ int i = 0;
 char *patient_db = "db/patient_db.txt";
 char sqlStr[256];
 
-create_patient(patient_name, patient_surname, patient_age, patient_disease, patient_symptoms)
+create_patient(patient_name, patient_surname, patient_age, patient_disease, patient_symptoms,patient_doctor)
 {
 	
 	//printf("Patient: %s %s %d created\nPatient Symptons is:%s\n\n\n", patient_name, patient_surname, patient_age, patient_disease);
 
     // write to the text file
-		add_to_database(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease);
+		add_to_database(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease,patient_doctor);
 	// fprintf(fp, "%s : %s | %s : %s | %s : %d | %s  : %s\n", "Patient Name",patient_name,"Patient Surname",patient_surname,"Patient Age",patient_age,"Patient Symptomps/Disase",patient_disease);
 }
 main(int argc, char *argv[])
@@ -45,22 +45,25 @@ main(int argc, char *argv[])
 		{
 		case 1:
 		{
-			printf("Patient name please...\n");
+			printf("Patient's name please...\n");
 			scanf(" %[^\n]s", patient_name);
 
-			printf("Patient Surname please...\n");
+			printf("Patient's Surname please...\n");
 			scanf("%s", patient_surname);
 
-			printf("Patient Age please...\n");
+			printf("Patient's Age please...\n");
 			scanf("%d", &patient_age);
 
-			printf("Patient Disease please...\n");
+			printf("Patient's Doctor please...\n");
+			scanf(" %[^\n]s", patient_doctor);
+
+			printf("Patient's Disease please...\n");
 			scanf(" %[^\n]s", patient_disease);
 
-			printf("Patient Symptoms please...\n");
+			printf("Patient's Symptoms please...\n");
 			scanf(" %[^\n]s", patient_symptoms);
 
-			add_to_database(patient_name, patient_surname, patient_age, patient_disease, patient_symptoms);
+			add_to_database(patient_name, patient_surname, patient_age, patient_disease, patient_symptoms,patient_doctor);
 			
 			sleep(5);
 			system("cls");
@@ -81,7 +84,7 @@ main(int argc, char *argv[])
 	} 
 
 
-int add_to_database(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease){
+int add_to_database(patient_name,patient_surname,patient_age,patient_symptoms,patient_disease,patient_doctor){
 	 
     sqlite3 *db;
     char *err_msg = 0;
@@ -97,13 +100,13 @@ int add_to_database(patient_name,patient_surname,patient_age,patient_symptoms,pa
     }
     
 
-	sprintf( sqlStr, "INSERT INTO Patient (PatientId,PatientName,PatientSurname,PatientAge,PatientSymptoms,PatientDisease,PatientDoctor) VALUES (%s,%s,%d,%s,%s)", patient_name,patient_surname,patient_age,patient_symptoms,patient_disease );
-    /* char *sql = "INSERT INTO Patient (PatientId,PatientName,PatientSurname,PatientAge,PatientSymptoms,PatientDisease,PatientDoctor) "\
-         "VALUES (1,"+patient_name+","+patient_surname+", "+patient_age+","+patient_symptoms+","+patient_disease");"*/
+	char *sql = "DROP TABLE IF EXISTS Patient;" 
+                "CREATE TABLE Patient(PatientId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, PatientName TEXT NOT NULL,PatientSurname TEXT NOT NULL,PatientAge INTEGER NOT NULL,PatientSymptoms TEXT NOT NULL, PatientDisease TEXT NOT NULL,PatientDoctor TEXT NOT NULL);" 
+				//"INSERT INTO Patient (PatientId,PatientName,PatientSurname,PatientAge,PatientSymptoms,PatientDisease,PatientDoctor) VALUES (NULL,'sss','akoraler',19,'High Fever','Infection','Dr.Sait');";
+   				"INSERT INTO Patient (PatientId,PatientName,PatientSurname,PatientAge,PatientSymptoms,PatientDisease,PatientDoctor) VALUES (NULL,'%s','%s',%d,'%s','%s','%s');",patient_name,patient_surname,patient_age,patient_symptoms,patient_disease,patient_doctor;
 
 
-
-    rc = sqlite3_exec(db, sqlStr, 0, 0, &err_msg);
+    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
     
     if (rc != SQLITE_OK ) {
         
